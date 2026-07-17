@@ -1,3 +1,23 @@
 # class executables
 **.class
 **.java~
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Environments
+.venv
+.vscode
+
+# secrets
+**.env
+
+# dump files
+**/dump/**
+**/logs/**
+**.pdf
