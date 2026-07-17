@@ -1,0 +1,23 @@
+# Use standard python base image
+FROM python:3.11-slim
+
+# Install uv by copying it from the official image
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+WORKDIR /app
+
+# Copy project configuration files from the root context
+COPY pyproject.toml uv.lock ./
+
+# Install dependencies into a virtual environment in Docker
+RUN uv sync --frozen --no-install-project --no-dev
+
+# Copy the loadbalancer source files from the subdirectory
+COPY ./loadbalancer/consistent_hash.py ./loadbalancer/docker_manager.py ./loadbalancer/app.py ./
+
+EXPOSE 5000
+
+# Activate the virtual environment by adding it to the PATH
+ENV PATH="/app/.venv/bin:$PATH"
+
+CMD ["python", "app.py"]
